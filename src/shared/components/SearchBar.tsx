@@ -12,11 +12,12 @@ export const SearchBar = ({ placeholder = "Buscar", onQuery }: Props) => {
   const [query, setQuery] = useState('');
 
   //UseEffect
-  //Se dispara despue de que renderice el componente
+  //Se dispara despues de que renderice el componente
 
   //dependencias[]: Su función principal es decirle a React cuándo debe volver a ejecutarse 
   // el código que escribiste dentro del efecto. Si no lo pusieras, el efecto se ejecutaría en cada renderizado del componente, lo cual suele ser ineficiente o causar bucles infinitos.
 
+  //A este patrón que estás usando en el código se le conoce como "Debounce" (rebotar/retrasar), y sirve precisamente para no saturar a tu servidor con una petición por cada letra que el usuario escribe.
   useEffect(() => {
     const timeoutid = setTimeout(() => {
       onQuery(query)

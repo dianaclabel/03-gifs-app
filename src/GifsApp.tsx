@@ -28,8 +28,10 @@ export const GifsApp = () => {
     //Actualizar previousTerms **agregando el nuevo termino al inicio y limitandi a 8 elementos**
     setPreviousTerms([query, ...previousTerms].slice(0, 7))
 
-    //Ejecutamos la funcion getGifsByQuery
-    await getGifsByQuery(query)
+    //Ejecutamos la funcion getGifsByQuery- llamado a la API
+    const gifs = await getGifsByQuery(query);
+    console.log({ gifs });
+
 
   }
 
