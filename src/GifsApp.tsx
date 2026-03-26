@@ -1,40 +1,17 @@
-import { useState } from "react";
+// import { useState } from "react";
 import { GifList } from "./gifs/components/GifList";
 import { PreviousSearches } from "./gifs/components/PreviousSearches";
-import { mockGifs } from "./mock-data/gifs.mock.data"
+// import { mockGifs } from "./mock-data/gifs.mock.data"
 import { CustomHeader } from "./shared/components/CustomHeader"
 import { SearchBar } from "./shared/components/SearchBar";
-import { getGifsByQuery } from "./gifs/actions/get-gifs-by-query.action";
+// import { getGifsByQuery } from "./gifs/actions/get-gifs-by-query.action";
+// import type { Gif } from "./gifs/interfaces/gif.interface";
+import { useGifs } from "./gifs/hooks/useGifs";
 
 
 
 export const GifsApp = () => {
-
-  const [previousTerms, setPreviousTerms] = useState(['dragon ball z']);
-
-  const handleTermClicked = (term: string) => {
-    console.log({ term })
-  }
-
-  const handleSearch = async (query: string) => {
-    //validar que el query no este vacío
-    query = query.toLocaleLowerCase().trim();
-
-    if (query.trim() === "") return;
-
-    // 3. **Evitar búsquedas duplicadas ** verificando
-    if (previousTerms.includes(query)) return;
-
-    //Actualizar previousTerms **agregando el nuevo termino al inicio y limitandi a 8 elementos**
-    setPreviousTerms([query, ...previousTerms].slice(0, 7))
-
-    //Ejecutamos la funcion getGifsByQuery- llamado a la API
-    const gifs = await getGifsByQuery(query);
-    console.log({ gifs });
-
-
-  }
-
+  const { previousTerms, gifs, handleTermClicked, handleSearch } = useGifs();
 
   return (
     <>
@@ -57,7 +34,7 @@ export const GifsApp = () => {
 
       {/* Gifs */}
 
-      <GifList gifs={mockGifs} />
+      <GifList gifs={gifs} />
 
 
     </>
