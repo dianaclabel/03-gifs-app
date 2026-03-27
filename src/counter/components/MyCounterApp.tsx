@@ -1,12 +1,9 @@
-import { useState } from "react"
 import { useCounter } from "../hooks/useCounter"
 
 //custom hook
 export const MyCounterApp = () => {
   // se recomienda primero colocar los useStates y despues los usesEffect.
   const { counter, handleAdd, handleSubtrac, handleReset } = useCounter(5);
-
-
 
 
   return (
