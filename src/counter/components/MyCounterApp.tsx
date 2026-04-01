@@ -3,12 +3,12 @@ import { useCounter } from "../hooks/useCounter"
 //custom hook
 export const MyCounterApp = () => {
   // se recomienda primero colocar los useStates y despues los usesEffect.
-  const { counter, handleAdd, handleSubtrac, handleReset } = useCounter(5);
+  const { counter, handleAdd, handleSubtrac, handleReset } = useCounter(10);
 
 
   return (
     <div style={{ display: "flex", flexDirection: 'column', alignItems: "center" }}>
-      <h1> counter : {counter}</h1>
+      <h1>counter: {counter}</h1>
 
       <div style={{ display: 'flex', gap: '10px' }}>
         <button onClick={handleAdd}>+1</button>
