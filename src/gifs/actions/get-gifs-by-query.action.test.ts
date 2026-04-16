@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, test } from "vitest";
+import { beforeEach, describe, expect, test, vi } from "vitest";
 import AxiosMockAdapter from 'axios-mock-adapter';
 
 import { getGifsByQuery } from "./get-gifs-by-query.action";
@@ -8,10 +8,13 @@ import { giphySearchResponseMock } from '../../../test/mock/giphy.response.data'
 
 describe('getGifsByQuery',()=>{
 
-  const  mock = new AxiosMockAdapter(giphyApi);
+  let  mock = new AxiosMockAdapter(giphyApi);//->[]
 
   beforeEach(()=>{
-    mock.reset();
+    //Resetea el mock como el momento en el que acaba de instanciar
+    // limpiar el mock
+    // mock.reset();
+    mock = new AxiosMockAdapter(giphyApi);
   })
 
   test('should return a list of gifs', async ()=>{
@@ -54,17 +57,37 @@ describe('getGifsByQuery',()=>{
   })
 
    test('should return an empty list  of gifs if query is empty', async()=>{
-    mock.restore();
+    //mock.onGet('/search').reply(200, { data: []});
     
     // mock.onGet('/search').reply(200, giphySearchResponseMock)
+    //el mock. utiliza para eliminar un mock y restaurar la implementación original de la función.
+    mock.restore();
 
-    const gifs =  await getGifsByQuery('goku');
+    // const gifs =  await getGifsByQuery('goku');
+    const gifs =  await getGifsByQuery('');
     console.log(gifs);
 
     expect(gifs.length).toBe(0);
+    
+  })
 
-    
-    
+  test('should handle error when the API returns an error', async () => {
+
+    //Es un espia de consola
+    const consoleErrorSpy  = vi.spyOn(console,"error");
+
+     mock.onGet("/search").reply(400,{
+      data:{
+        message: "Bad Request"
+      }
+     });
+
+     const gifs = await getGifsByQuery("Goku");
+     
+     expect(gifs.length).toBe(0);
+     expect(consoleErrorSpy).toHaveBeenCalled();
+     expect(consoleErrorSpy).toHaveBeenCalledTimes(1);
+
   })
 }
 )
